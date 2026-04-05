@@ -81,6 +81,7 @@ export type SiteContent = {
     description: string;
     infoTitle: string;
     email: string;
+    salesEmail: string;
     phone: string;
     location: string;
     socialLine: string;
@@ -97,6 +98,7 @@ export type SiteContent = {
       tip: string;
       attach: string;
       submit: string;
+      emailSubject: string;
       privacy: string;
       success: string;
     };
