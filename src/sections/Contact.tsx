@@ -21,6 +21,21 @@ function isEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 }
 
+function buildMailtoUrl({
+  to,
+  subject,
+  body,
+}: {
+  to: string;
+  subject: string;
+  body: string;
+}) {
+  const params = new URLSearchParams();
+  params.set("subject", subject);
+  params.set("body", body);
+  return `mailto:${encodeURIComponent(to)}?${params.toString()}`;
+}
+
 export default function Contact() {
   const { c } = useI18n();
   const [state, setState] = useState<FormState>({
@@ -68,9 +83,36 @@ export default function Contact() {
     setErrors(v);
     if (Object.keys(v).length > 0) return;
 
+    const fileName = state.file?.name ? state.file.name : "—";
+    const body = [
+      `${c.contact.form.emailSubject}`,
+      "",
+      `${c.contact.form.nameLabel}: ${state.name}`,
+      `${c.contact.form.emailLabel}: ${state.email}`,
+      `${c.contact.form.phoneLabel}: ${state.phone || "—"}`,
+      `${c.contact.form.serviceLabel}: ${state.service}`,
+      `${c.contact.form.descriptionLabel}:`,
+      state.description,
+      "",
+      `File: ${fileName}`,
+      "",
+      "—",
+      "Sent from Ingenia3Design website",
+    ].join("\n");
+
+    const subject = `${c.contact.form.emailSubject} — ${state.name}`;
+    const mailto = buildMailtoUrl({
+      to: c.contact.salesEmail,
+      subject,
+      body,
+    });
+
     setSubmitted(true);
     window.setTimeout(() => setSubmitted(false), 5000);
     setState((s) => ({ ...s, description: "", file: null }));
+
+    // Opens the user's email client with the quote pre-filled.
+    window.location.href = mailto;
   }
 
   return (
