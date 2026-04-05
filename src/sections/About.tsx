@@ -2,37 +2,25 @@ import { motion } from "framer-motion";
 import { Bolt, Gauge, Target } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
+import { useI18n } from "../i18n/i18n";
 
-const highlights = [
-  {
-    icon: Target,
-    title: "Precision-first",
-    desc: "Tolerances, fit, and repeatability baked into every decision.",
-  },
-  {
-    icon: Bolt,
-    title: "Fast iteration",
-    desc: "Short loops from feedback to improved parts, without losing quality.",
-  },
-  {
-    icon: Gauge,
-    title: "Engineering mindset",
-    desc: "DFM checks, material guidance, and design-to-production support.",
-  },
-];
+const highlightIcons = [Target, Bolt, Gauge] as const;
 
 export default function About() {
+  const { c } = useI18n();
   return (
     <Section id="about">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
         <SectionHeading
-          eyebrow="About"
-          title="Built for teams that ship hardware."
-          description="Ingenia3Design specializes in precision 3D printing, rapid prototyping, CAD modeling, and small-batch manufacturing—helping you go from concept to production-ready parts."
+          eyebrow={c.about.eyebrow}
+          title={c.about.title}
+          description={c.about.description}
         />
 
         <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-          {highlights.map((h, idx) => (
+          {c.about.highlights.map((h, idx) => {
+            const Icon = highlightIcons[idx] ?? Target;
+            return (
             <motion.div
               key={h.title}
               initial={{ opacity: 0, y: 14 }}
@@ -43,7 +31,7 @@ export default function About() {
             >
               <div className="flex items-start gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                  <h.icon className="h-5 w-5 text-sand/85" />
+                  <Icon className="h-5 w-5 text-sand/85" />
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-white">{h.title}</div>
@@ -53,7 +41,8 @@ export default function About() {
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </Section>

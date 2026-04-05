@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
-import { services } from "../data/services";
+import { useI18n } from "../i18n/i18n";
 
 const iconById = {
   printing: Printer,
@@ -21,20 +21,21 @@ const iconById = {
 } as const;
 
 export default function Services() {
+  const { c } = useI18n();
   return (
     <Section id="services" className="relative">
       <div className="absolute inset-x-0 -top-10 h-40 bg-gradient-to-b from-black/25 to-transparent" />
 
       <div className="flex flex-col gap-10">
         <SectionHeading
-          eyebrow="Services"
-          title="Everything you need for prototype-to-production."
-          description="From clean CAD to high-precision parts and small runs—choose a service or combine them for an end-to-end workflow."
+          eyebrow={c.services.eyebrow}
+          title={c.services.title}
+          description={c.services.description}
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, idx) => {
-            const Icon = iconById[s.id];
+          {c.services.cards.map((s, idx) => {
+            const Icon = iconById[s.id as keyof typeof iconById];
             return (
               <motion.div
                 key={s.id}
@@ -47,7 +48,7 @@ export default function Services() {
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-                    <Icon className="h-5 w-5 text-sand/85" />
+                    {Icon ? <Icon className="h-5 w-5 text-sand/85" /> : null}
                   </div>
                   <div className="flex-1">
                     <div className="text-base font-semibold text-white">

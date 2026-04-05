@@ -2,20 +2,21 @@ import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
-import { testimonials } from "../data/testimonials";
+import { useI18n } from "../i18n/i18n";
 
 export default function Testimonials() {
+  const { c } = useI18n();
   return (
     <Section id="testimonials">
       <div className="flex flex-col gap-10">
         <SectionHeading
-          eyebrow="Testimonials"
-          title="Trusted by builders."
-          description="Realistic placeholder feedback—replace with real client quotes when available."
+          eyebrow={c.testimonials.eyebrow}
+          title={c.testimonials.title}
+          description={c.testimonials.description}
         />
 
         <div className="grid gap-4 lg:grid-cols-3">
-          {testimonials.map((t, idx) => (
+          {c.testimonials.items.map((t, idx) => (
             <motion.figure
               key={t.name}
               initial={{ opacity: 0, y: 14 }}

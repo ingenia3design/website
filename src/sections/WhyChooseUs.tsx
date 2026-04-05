@@ -9,52 +9,32 @@ import {
 } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
+import { useI18n } from "../i18n/i18n";
 
-const benefits = [
-  {
-    icon: ShieldCheck,
-    title: "Precision manufacturing",
-    desc: "Quality-focused workflows and dimensional awareness where it matters.",
-  },
-  {
-    icon: Users,
-    title: "Personalized support",
-    desc: "Fast, clear communication with practical design guidance.",
-  },
-  {
-    icon: BadgeDollarSign,
-    title: "Competitive pricing",
-    desc: "Pragmatic recommendations to hit performance goals within budget.",
-  },
-  {
-    icon: Clock,
-    title: "Fast turnaround",
-    desc: "Short lead times for prototypes and consistent timelines for small runs.",
-  },
-  {
-    icon: Sparkles,
-    title: "High-quality materials",
-    desc: "Material selection aligned to durability, finish, and use-case needs.",
-  },
-  {
-    icon: Wrench,
-    title: "Design expertise",
-    desc: "From CAD cleanup to DFM optimization and production-ready handoff.",
-  },
-];
+const benefitIcons = [
+  ShieldCheck,
+  Users,
+  BadgeDollarSign,
+  Clock,
+  Sparkles,
+  Wrench,
+] as const;
 
 export default function WhyChooseUs() {
+  const { c } = useI18n();
   return (
     <Section id="why">
       <div className="flex flex-col gap-10">
         <SectionHeading
-          eyebrow="Why Choose Us"
-          title="Premium results, without the guesswork."
-          description="A high-end engineering and fabrication experience designed to keep you moving forward."
+          eyebrow={c.why.eyebrow}
+          title={c.why.title}
+          description={c.why.description}
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {benefits.map((b, idx) => (
+          {c.why.benefits.map((b, idx) => {
+            const Icon = benefitIcons[idx] ?? ShieldCheck;
+            return (
             <motion.div
               key={b.title}
               initial={{ opacity: 0, y: 14 }}
@@ -65,7 +45,7 @@ export default function WhyChooseUs() {
             >
               <div className="flex items-start gap-4">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-                  <b.icon className="h-5 w-5 text-sand/85" />
+                  <Icon className="h-5 w-5 text-sand/85" />
                 </div>
                 <div>
                   <div className="text-base font-semibold text-white">
@@ -77,7 +57,8 @@ export default function WhyChooseUs() {
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </Section>

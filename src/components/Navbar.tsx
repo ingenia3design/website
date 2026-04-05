@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { NavItem } from "../App";
+import { useI18n } from "../i18n/i18n";
 import Button from "./Button";
 import Container from "./Container";
 import Logo from "./Logo";
@@ -13,6 +14,7 @@ function scrollToSection(id: string) {
 }
 
 export default function Navbar({ items }: { items: NavItem[] }) {
+  const { locale, setLocale, c } = useI18n();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -53,7 +55,7 @@ export default function Navbar({ items }: { items: NavItem[] }) {
             setOpen(false);
           }}
           className="rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50"
-          aria-label="Go to top"
+          aria-label={c.nav.goToTopAria}
         >
           <Logo />
         </a>
@@ -68,27 +70,81 @@ export default function Navbar({ items }: { items: NavItem[] }) {
               {i.label}
             </button>
           ))}
+          <div
+            className="ml-1 inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1"
+            aria-label={c.nav.languageLabel}
+          >
+            <button
+              onClick={() => setLocale("es")}
+              className={`h-9 rounded-lg px-3 text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50 ${
+                locale === "es"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+              type="button"
+            >
+              ES
+            </button>
+            <button
+              onClick={() => setLocale("en")}
+              className={`h-9 rounded-lg px-3 text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50 ${
+                locale === "en"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+              type="button"
+            >
+              EN
+            </button>
+          </div>
           <Button
             onClick={() => scrollToSection("contact")}
             className="ml-2"
             size="md"
           >
-            Request a Quote
+            {c.nav.cta}
           </Button>
         </nav>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <div
+            className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1"
+            aria-label={c.nav.languageLabel}
+          >
+            <button
+              onClick={() => setLocale("es")}
+              className={`h-9 rounded-lg px-2.5 text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50 ${
+                locale === "es"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+              type="button"
+            >
+              ES
+            </button>
+            <button
+              onClick={() => setLocale("en")}
+              className={`h-9 rounded-lg px-2.5 text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50 ${
+                locale === "en"
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+              type="button"
+            >
+              EN
+            </button>
+          </div>
           <Button
             variant="secondary"
             size="sm"
             onClick={() => scrollToSection("contact")}
           >
-            Quote
+            {c.nav.ctaShort}
           </Button>
           <button
             onClick={() => setOpen((v) => !v)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-sand/50"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? c.nav.closeMenuAria : c.nav.openMenuAria}
             aria-expanded={open}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
