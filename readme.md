@@ -1,4 +1,4 @@
-# Ingenia3Design — SPA
+# Ingenia3Design — SPA -
 
 Single-page app (React + Vite + TypeScript) para **Ingenia3Design** con **Tailwind CSS** y animaciones sutiles con **Framer Motion**.
 
