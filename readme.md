@@ -1,5 +1,5 @@
 # Ingenia3Design — SPA
-
+version 1.0.1
 Single-page app (React + Vite + TypeScript) para **Ingenia3Design** con **Tailwind CSS** y animaciones sutiles con **Framer Motion**.
 
 ## Requisitos
